@@ -63,4 +63,21 @@ vector<Point2D> convex_hull() {
   return ans;
 }
 
-int main() { return 0; }
+int main() {
+  int n;
+  cin >> n;
+
+  for (int i = 0; i < n; i++) {
+    double x, y;
+    cin >> x >> y;
+    points.push_back(Point2D{x, y});
+  }
+
+  vector<Point2D> ans = convex_hull();
+
+  for (int i = 0; i < ans.size(); i++) {
+    cout << ans[i].x << ' ' << ans[i].y << '\n';
+  }
+
+  return 0;
+}
