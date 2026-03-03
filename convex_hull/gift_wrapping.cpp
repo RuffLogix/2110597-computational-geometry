@@ -26,35 +26,30 @@ int orientation(Point2D p1, Point2D p2, Point2D p3) {
 }
 
 vector<Point2D> convex_hull() {
-  vector<bool> included(points.size());
-
   int current_index = -1;
   for (int i = 0; i < points.size(); i++) {
-    if (i == -1 || points[i].y < points[current_index].y) {
+    if (current_index == -1 || points[i].y < points[current_index].y) {
       current_index = i;
     }
   }
+  int start = current_index;
 
   vector<Point2D> ans;
-  while (!included[current_index]) {
+  do {
     ans.push_back(points[current_index]);
-    included[current_index] = true;
 
-    int target_index = -1;
-    double target_angle = 360.0;
+    int target_index = (current_index + 1) % points.size();
     for (int i = 0; i < points.size(); i++) {
       if (i == current_index)
         continue;
-      double angle = atan2(points[i].y - points[current_index].y,
-                           points[i].x - points[current_index].x);
 
-      if (target_index == -1 || angle < target_angle) {
-        target_angle = angle;
+      if (orientation(points[current_index], points[target_index], points[i]) >
+          0) {
         target_index = i;
       }
     }
     current_index = target_index;
-  }
+  } while (start != current_index);
   return ans;
 }
 
